@@ -29,7 +29,7 @@ class App extends Component {
   }
 
   getVehicles() {
-    // axios (GET)
+
     axios.get('http://joes-autos.herokuapp.com/api/vehicles')
       .then((response) => {
         console.log(response.data)
@@ -40,13 +40,19 @@ class App extends Component {
       .catch((error) => {
         console.log(error)
     });
-    // setState with response -> vehiclesToDisplay
     
   }
 
   getPotentialBuyers() {
-    // axios (GET)
-    // setState with response -> buyersToDisplay
+    axios.get('http://joes-autos.herokuapp.com/api/buyers')
+      .then(response => {
+        this.setState({
+          buyersToDisplay: response.data
+        })
+      })
+      .catch(error => {
+        console.log(error)
+      });
   }
 
   sellCar(id) {
@@ -74,7 +80,7 @@ class App extends Component {
   }
 
   updatePrice(priceChange, id) {
-    // axios (PUT)
+
     axios.put(`http://joes-autos.herokuapp.com/api/vehicles/${id}/${priceChange}`)
       .then((response) => {
         this.setState({
@@ -86,7 +92,6 @@ class App extends Component {
       .catch((error) => {
         console.log(error)
     });
-    // setState with response -> vehiclesToDisplay
   }
 
   addCar() {
@@ -98,7 +103,6 @@ class App extends Component {
       price: this.price.value
     };
 
-    // axios (POST)
     axios.post(`http://joes-autos.herokuapp.com/api/vehicles`, newCar)
       .then(response => {
         this.setState({
@@ -118,13 +122,27 @@ class App extends Component {
       address: this.address.value
     };
 
-    //axios (POST)
-    // setState with response -> buyersToDisplay
+    axios.post(`https://joes-autos.herokuapp.com/api/buyers`, newBuyer)
+    .then(response => {
+      this.setState({
+        buyersToDisplay: response.data.buyers
+      })
+    })
+    .catch((error) => {
+      console.log(error)
+    });
   }
 
   deleteBuyer(id) {
-    // axios (DELETE)
-    //setState with response -> buyersToDisplay
+    axios.delete(`https://joes-autos.herokuapp.com/api/buyers/${id}`, id)
+    .then(response => {
+      this.setState({
+        buyersToDisplay: response.data.buyers
+      })
+    })
+    .catch(error => {
+      console.log(error)
+    });
   }
 
   nameSearch() {
